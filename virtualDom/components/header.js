@@ -6,7 +6,8 @@ export default () => {
         children: [h('img', {
             attrs: {
                 src: './images/search.svg',
-                alt: 'search icon'
+                alt: 'search icon',
+                class: 'searchSwitch'
             }
         })]
       });

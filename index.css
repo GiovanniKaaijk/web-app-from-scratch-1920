@@ -151,6 +151,7 @@ form.fade {
 
 form.hidden {
     visibility: hidden;
+    opacity: 0;
 }
 
 div.overlay {
@@ -188,10 +189,11 @@ div.overlay .spinner {
 
 header {
     display: flex;
-    
+    box-shadow: 0 3px 6px rgba(0,0,0,0.06), 0 3px 6px rgba(0,0,0,0.11);
 }
 
 header img {
     width: 30px;
-    margin: 15px 15px 0 auto;
+    margin: 15px 15px 15px auto;
+    cursor: pointer;
 }

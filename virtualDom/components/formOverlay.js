@@ -4,7 +4,7 @@ export default () => {
     return h('form', {
         attrs: {
           action: '',
-          class: 'root'
+          class: 'search'
         },
         children: [h('div', {
             attrs: {},

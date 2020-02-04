@@ -6,7 +6,7 @@ import formApp from './virtualDom/components/formOverlay'
 import header from './virtualDom/components/header'
 
 let vApp;
-let childElements = [];
+
 let overlay,
     form;
 
@@ -56,25 +56,24 @@ let renderRecipe = (result) => {
                 ],
         }))
     })
-
-    childElements.push(h('main', {
-        attrs: {
-            class: ''
-        },
-        children: newChildren
-    }))
     
     vApp = h('div', {
         attrs: {
           id: 'app',
+          class: 'container'
         },
-        children: childElements
+        children: [h('main', {
+            attrs: {
+                class: ''
+            },
+            children: newChildren
+        })]
       });
-    
-    const $app = render(vApp);
-    mount($app, document.querySelector('.root'));
+
     
     form.classList.add('fade')
+    const $app = render(vApp);
+    mount($app, document.querySelector('.container'));
     setTimeout(() => {
         form.classList.remove('fade')
         form.classList.add('hidden')
@@ -116,11 +115,16 @@ let setup = () => {
 let prepareHeader = () => {
     let $app = render(header());
     mount($app, document.querySelector('.header'))
+    document.querySelector('.searchSwitch').addEventListener('click', () => {
+        document.querySelector('.overlay').classList.remove('show')
+        document.querySelector('.search').classList.remove('hidden')
+        document.querySelector('form input').value = ''
+    })
 }
 
 let prepareForm = () => {
     let $app = render(formApp());
-    mount($app, document.querySelector('.root'));
+    mount($app, document.querySelector('.search'));
     overlay = document.querySelector('.overlay')
     form = document.querySelector('form')
     form.onsubmit = renderData
