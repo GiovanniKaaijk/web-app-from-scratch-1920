@@ -10,10 +10,6 @@ let vApp;
 let overlay,
     form;
 
-let api = 'https://api.edamam.com/search'
-let appId = '&app_id=f8bd8b97'
-let appKey = '&app_key=db1e2d22f0a7e8cedde770beac059cba'
-
 let renderRecipe = (result) => {
     let results = '';
     let newChildren = [];
@@ -80,9 +76,20 @@ let renderRecipe = (result) => {
     }, 300);
 }
 
-let getRecipe = async (filter) => {
+let getRecipe = async (filter, mealtype) => {
+    let api = 'https://api.edamam.com/search'
+    let appId = '&app_id=f8bd8b97'
+    let appKey = '&app_key=db1e2d22f0a7e8cedde770beac059cba'
+
+    if(mealtype != null) {
+        mealtype = `&mealtype=${mealtype}`
+    } else {
+        mealtype = ``
+    }
+
     let apiFilter = `?q=${filter}`
-    let query = api + apiFilter + appId + appKey
+    let query = api + apiFilter + appId + appKey + mealtype + '&from=0&to=51'
+    console.log(query)
     let result;
     await fetch(query)
         .then(res => {
@@ -102,9 +109,19 @@ let getRecipe = async (filter) => {
 let renderData = (e) => {
     e.preventDefault()
     overlay.classList.add('show')
-    let formInput = document.querySelector('form input').value
-    console.log(formInput)
-    getRecipe(formInput)
+    let formInput = document.querySelector('form #recipe').value
+    let radioButtons = document.getElementsByName('mealtype')
+    let checkedButton;
+    radioButtons.forEach(button => {
+        if(button.checked) {
+            checkedButton = button.id
+        }
+    })
+    if(!checkedButton) {
+        checkedButton = null
+    }
+    console.log(formInput, checkedButton)
+    getRecipe(formInput, checkedButton)
 }
 
 let setup = () => {
@@ -116,6 +133,11 @@ let prepareHeader = () => {
     let $app = render(header());
     mount($app, document.querySelector('.header'))
     document.querySelector('.searchSwitch').addEventListener('click', () => {
+        mount(render(h('div', {
+            attrs: {
+                class: 'container'
+            }
+        })), document.querySelector('.container'))
         document.querySelector('.overlay').classList.remove('show')
         document.querySelector('.search').classList.remove('hidden')
         document.querySelector('form input').value = ''
