@@ -1,11 +1,11 @@
 export default (tagName, { attrs, children }) => {
-    const vElem = Object.create(null);
+    const virtualElem = Object.create(null);
   
-    Object.assign(vElem, {
+    Object.assign(virtualElem, {
       tagName,
       attrs,
       children,
     });
   
-    return vElem;
+    return virtualElem;
   };

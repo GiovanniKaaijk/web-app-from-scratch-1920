@@ -2,8 +2,8 @@ import h from './virtualDom/createElement';
 import render from './virtualDom/render';
 import mount from './virtualDom/mount'
 
-import formApp from './virtualDom/components/formOverlay'
-import header from './virtualDom/components/header'
+import formApp from './components/formOverlay'
+import header from './components/header'
 
 let vApp;
 
@@ -11,10 +11,8 @@ let overlay,
     form;
 
 let renderRecipe = (result) => {
-    let results = '';
     let newChildren = [];
     result.hits.map(result => {
-        let ingredients = '';
         result.recipe.ingredientLines.map(ingredient => {
             ingredients += `<p>${ingredient}</p>`
         })

@@ -1,4 +1,4 @@
-export default ($node, $target) => {
-    $target.replaceWith($node);
-    return $node;
+export default (domNode, domTarget) => {
+    domTarget.replaceWith(domNode);
+    return domNode;
   };
