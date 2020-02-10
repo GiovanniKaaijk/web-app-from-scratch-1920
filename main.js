@@ -4,18 +4,20 @@ import mount from './virtualDom/mount'
 
 import formApp from './components/formOverlay'
 import header from './components/header'
+import {select, selectAll,selectName, addEvent} from './helpers/helper'
 
 let vApp;
 
 let overlay,
     form;
 
-let renderRecipe = (result) => {
-    let newChildren = [];
+const renderRecipe = (result) => {
+    const newChildren = [];
     result.hits.map(result => {
-        result.recipe.ingredientLines.map(ingredient => {
-            ingredients += `<p>${ingredient}</p>`
-        })
+        // let ingredients = '';
+        // result.recipe.ingredientLines.map(ingredient => {
+        //     ingredients += `<p>${ingredient}</p>`
+        // })
         // <p>Calories: ${Math.floor(result.recipe.calories)}</p>
         //         <div>
         //             <p>Ingredients:</p>
@@ -66,8 +68,8 @@ let renderRecipe = (result) => {
 
     
     form.classList.add('fade')
-    const $app = render(vApp);
-    mount($app, document.querySelector('.container'));
+    const domApp = render(vApp);
+    mount(domApp, select('.container'));
     setTimeout(() => {
         form.classList.remove('fade')
         form.classList.add('hidden')
@@ -75,9 +77,9 @@ let renderRecipe = (result) => {
 }
 
 let getRecipe = async (filter, mealtype) => {
-    let api = 'https://api.edamam.com/search'
-    let appId = '&app_id=f8bd8b97'
-    let appKey = '&app_key=db1e2d22f0a7e8cedde770beac059cba'
+    const api = 'https://api.edamam.com/search'
+    const appId = '&app_id=f8bd8b97'
+    const appKey = '&app_key=db1e2d22f0a7e8cedde770beac059cba'
 
     if(mealtype != null) {
         mealtype = `&mealtype=${mealtype}`
@@ -85,8 +87,8 @@ let getRecipe = async (filter, mealtype) => {
         mealtype = ``
     }
 
-    let apiFilter = `?q=${filter}`
-    let query = api + apiFilter + appId + appKey + mealtype + '&from=0&to=51'
+    const apiFilter = `?q=${filter}`
+    const query = api + apiFilter + appId + appKey + mealtype + '&from=0&to=51'
     console.log(query)
     let result;
     await fetch(query)
@@ -104,11 +106,11 @@ let getRecipe = async (filter, mealtype) => {
     renderRecipe(result)
 }
 
-let renderData = (e) => {
+const renderData = (e) => {
     e.preventDefault()
     overlay.classList.add('show')
-    let formInput = document.querySelector('form #recipe').value
-    let radioButtons = document.getElementsByName('mealtype')
+    const formInput = select('form #recipe').value
+    const radioButtons = selectName('mealtype')
     let checkedButton;
     radioButtons.forEach(button => {
         if(button.checked) {
@@ -122,31 +124,31 @@ let renderData = (e) => {
     getRecipe(formInput, checkedButton)
 }
 
-let setup = () => {
+const setup = () => {
     prepareHeader()
     prepareForm()
 }
 
-let prepareHeader = () => {
-    let $app = render(header());
-    mount($app, document.querySelector('.header'))
-    document.querySelector('.searchSwitch').addEventListener('click', () => {
+const prepareHeader = () => {
+    const domApp = render(header());
+    mount(domApp, select('.header'))
+    addEvent(select('.searchSwitch'), 'click', () => {
         mount(render(h('div', {
             attrs: {
                 class: 'container'
             }
-        })), document.querySelector('.container'))
-        document.querySelector('.overlay').classList.remove('show')
-        document.querySelector('.search').classList.remove('hidden')
-        document.querySelector('form input').value = ''
+        })), select('.container'))
+        select('.overlay').classList.remove('show')
+        select('.search').classList.remove('hidden')
+        select('form input').value = ''
     })
 }
 
-let prepareForm = () => {
-    let $app = render(formApp());
-    mount($app, document.querySelector('.search'));
-    overlay = document.querySelector('.overlay')
-    form = document.querySelector('form')
+const prepareForm = () => {
+    const domApp = render(formApp());
+    mount(domApp, select('.search'));
+    overlay = select('.overlay')
+    form = select('form')
     form.onsubmit = renderData
 }
 

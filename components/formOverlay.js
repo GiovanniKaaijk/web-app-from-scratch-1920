@@ -1,4 +1,4 @@
-import h from '../createElement';
+import h from '../virtualDom/createElement';
 
 export default () => {
     return h('form', {
