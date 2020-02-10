@@ -1,37 +1,49 @@
-import h from './virtualDom/createElement';
-import render from './virtualDom/render';
+// Created the vitual dom with the following documentation
+// https://dev.to/ycmjason/building-a-simple-virtual-dom-from-scratch-3d05#diff-oldvtree-newvtree
+// Made by: https://github.com/ycmjason
+
+import h from './virtualDom/createElement'
+import render from './virtualDom/render'
 import mount from './virtualDom/mount'
+import diff from './virtualDom/diffChecker'
 
 import formApp from './components/formOverlay'
 import header from './components/header'
+import createDetailPage from './components/detailPage'
+
 import {select, selectAll,selectName, addEvent} from './helpers/helper'
+import {fetcher} from './helpers/fetch'
+
+const api = 'https://api.edamam.com/search'
+const appId = '&app_id=f8bd8b97'
+const appKey = '&app_key=db1e2d22f0a7e8cedde770beac059cba'
 
 let vApp;
+//gets changed later on
+let vNewApp = h('div', {
+    attrs: {
+        class: 'app'
+    },
+    children: []
+})
 
 let overlay,
-    form;
+    form,
+    rootEl;
 
 const renderRecipe = (result) => {
     const newChildren = [];
     result.hits.map(result => {
-        // let ingredients = '';
-        // result.recipe.ingredientLines.map(ingredient => {
-        //     ingredients += `<p>${ingredient}</p>`
-        // })
-        // <p>Calories: ${Math.floor(result.recipe.calories)}</p>
-        //         <div>
-        //             <p>Ingredients:</p>
-        //             ${ingredients}
-        //         </div>
         
         newChildren.push(h('article', {
             attrs: {
-                class: 'object-wrapper'
+                class: 'object-wrapper',
+                "data-uri": result.recipe.uri
             },
             children: [
                 h('div', {
                     attrs: {
-                        class: 'img-wrapper',
+                        class: 'img-wrapper'
                     },
                     children: [
                         h('img', {
@@ -53,7 +65,7 @@ const renderRecipe = (result) => {
         }))
     })
     
-    vApp = h('div', {
+    vNewApp = h('div', {
         attrs: {
           id: 'app',
           class: 'container'
@@ -68,18 +80,35 @@ const renderRecipe = (result) => {
 
     
     form.classList.add('fade')
-    const domApp = render(vApp);
-    mount(domApp, select('.container'));
+
     setTimeout(() => {
         form.classList.remove('fade')
         form.classList.add('hidden')
     }, 300);
+    setTimeout(() => {
+        setupDetailEvents()
+    }, 100);
+}
+
+let setupDetailEvents = async () => {
+    let recipes = selectAll('article');
+    console.log(recipes)
+    recipes.forEach(recipe => {
+        addEvent(recipe, 'click', initDetailPage)
+    })
+}
+
+async function initDetailPage () {
+    const dataUri = this.dataset.uri
+    let r = dataUri.split('recipe_')
+    r = `?q=${r[1]}`
+    const detailQuery = api + r + appId + appKey
+    console.log(detailQuery)
+    const data = await fetcher(detailQuery)
+    vNewApp = createDetailPage(data)
 }
 
 let getRecipe = async (filter, mealtype) => {
-    const api = 'https://api.edamam.com/search'
-    const appId = '&app_id=f8bd8b97'
-    const appKey = '&app_key=db1e2d22f0a7e8cedde770beac059cba'
 
     if(mealtype != null) {
         mealtype = `&mealtype=${mealtype}`
@@ -89,20 +118,8 @@ let getRecipe = async (filter, mealtype) => {
 
     const apiFilter = `?q=${filter}`
     const query = api + apiFilter + appId + appKey + mealtype + '&from=0&to=51'
-    console.log(query)
-    let result;
-    await fetch(query)
-        .then(res => {
-            if(res.status === 200) {
-                console.log(200)
-                return res.json()
-            }
-        })
-        .then(json => {
-            console.log(json)
-            result = json
-        }).catch(err => {console.log(err)})
-
+    let result = await fetcher(query)
+    
     renderRecipe(result)
 }
 
@@ -126,6 +143,7 @@ const renderData = (e) => {
 
 const setup = () => {
     prepareHeader()
+    vApp = formApp()
     prepareForm()
 }
 
@@ -145,11 +163,29 @@ const prepareHeader = () => {
 }
 
 const prepareForm = () => {
-    const domApp = render(formApp());
-    mount(domApp, select('.search'));
-    overlay = select('.overlay')
-    form = select('form')
-    form.onsubmit = renderData
+    vNewApp = formApp();
+    setTimeout(() => {
+        overlay = select('.overlay')
+        form = select('form')
+        form.onsubmit = renderData
+    }, 1001);
+    mount(render(vNewApp), select('.search'))
+    prepareDiffCheck()
+}
+
+const prepareDiffCheck = () => {
+    let container = h('div', {
+        attrs: {
+            class: 'container'
+        },
+        children: []
+    })
+    rootEl = mount(render(container), select('.container'))
+    setInterval(() => {
+        const patch = diff(vApp, vNewApp);
+        rootEl = patch(rootEl);
+        vApp = vNewApp
+    }, 50);
 }
 
 setup()
