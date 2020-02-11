@@ -14,7 +14,7 @@ export default (data) => {
     })
     return h('div', {
         attrs: {
-            class: 'detail'
+            class: 'container detail'
         },
         children: [
             h('div', {
