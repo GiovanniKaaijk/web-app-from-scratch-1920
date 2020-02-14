@@ -4,7 +4,7 @@
 
 The perfect website to discover delicious recipes.
 
-<img width="750" alt="Schermafbeelding 2019-10-18 om 11 09 20" src="https://user-images.githubusercontent.com/43671292/68860278-82cf6d00-06e9-11ea-92b6-07dba0ee7684.png">
+<img width="1440" alt="Schermafbeelding 2020-02-14 om 09 38 10" src="https://user-images.githubusercontent.com/43671292/74514918-cfeff480-4f0d-11ea-9c4f-070b49ba8448.png">
 
 ## Table of Contents
 
