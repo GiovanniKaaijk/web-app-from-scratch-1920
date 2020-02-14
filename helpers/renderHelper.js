@@ -1,18 +1,13 @@
 import {select, selectName} from './helper'
 import {fetcher} from './fetch'
+import {setData, getData, removeData, modifyData} from './localStorage'
 
-
-
-
-const api = 'https://api.edamam.com/search'
-const appId = '&app_id=f8bd8b97'
-const appKey = '&app_key=db1e2d22f0a7e8cedde770beac059cba'
-
-async function renderHelper() {
+async function renderHelper(apiData) {
     const overlay = select('.overlay');
     select('body').classList.remove('form-overlay')
     overlay.classList.add('show')
     const formInput = select('form #recipe').value
+    setData('recipeValue', formInput)
     const radioButtons = selectName('mealtype')
     let checkedButton;
     console.log(formInput)
@@ -24,21 +19,21 @@ async function renderHelper() {
     if(!checkedButton) {
         checkedButton = null
     }
-    return await getRecipe(formInput, checkedButton)
+    return await getRecipe(formInput, checkedButton, apiData)
 }
 
-const getRecipe = async (filter, mealtype) => {
+const getRecipe = async (filter, mealtype, apiData) => {
 
     if(mealtype != null) {
         mealtype = `&mealtype=${mealtype}`
     } else {
         mealtype = ``
     }
-    const apiFilter = `?q=${filter}`
-    const query = api + apiFilter + appId + appKey + mealtype + '&from=0&to=51'
-    console.log(await fetcher(query),query)
-    return await fetcher(query)
     
+    const apiFilter = `?q=${filter}`
+    let randomKeyNumber = Math.floor(Math.random() * 6)
+    const query = apiData.api + apiFilter + apiData.appId + apiData.appKey + apiData.appKeys[randomKeyNumber] + mealtype + '&from=0&to=51'
+    return await fetcher(query)
 }
 
 export {renderHelper}

@@ -1,42 +1,123 @@
-# Web App From Scratch @cmda-minor-web 1819
+# Web app from scratch
 
-In this course you will learn to build a web application without frameworks or unnecessary libraries, but with vanilla HTML, CSS & JavaScript as much as possible. The end result is a modular, single page web app (SPA). Data will be retrieved from an external API of your choice, manipulated and finally shown in the UI of the App. You will learn different ways to structure code and develope your own coding style. With the gained knowledge you will be able to build interactive prototypes, based on real data. Also you will gain a better understanding of the how API's, frameworks and libraries work.
+## My recipe searcher
 
-## Learning goals
+The perfect website to discover delicious recipes.
 
-* _You can add structure to your code by applying patterns. You can defend the choice for the chosen patterns_
-* _You can retrieve data, manipulate it and dynamically convert it to html elements using templating_
-* _You understand how you can work with an external API using asynchronous code_
-* _You understand how you can manage state in your application and you inform the user of state where necessary_
+<img width="750" alt="Schermafbeelding 2019-10-18 om 11 09 20" src="https://user-images.githubusercontent.com/43671292/68860278-82cf6d00-06e9-11ea-92b6-07dba0ee7684.png">
 
-[Rubric](https://docs.google.com/spreadsheets/d/e/2PACX-1vTjZGWGPC_RMvTMry8YW5XOM79GEIdgS7I5JlOe6OeeOUdmv7ok1s9jQhzojNE4AsyzgL-jJCbRj1LN/pubhtml?gid=0&single=true)
+## Table of Contents
 
-## Program
+- [Description](#Description)
+- [Features](#Features)
+  - [API](#API)
+  - [App features](#app-features)
+  - [Enter update exit](#enter-update-exit)
+- [Installation](#Installation)
+  - [Keep up to date](#Keep-up-to-date)
+- [Contributing](#Contributing)
+- [License](#License)
 
-### Week 1 - Hello API 🐒
+## Description
 
-Goal: Retrieve data from an API and render it in an overview page.
+During this course I created a web app to discover recipes. The data I use comes from [Edamam](https://developer.edamam.com/). The user has the ability to search different recipes and see the detail pages.
 
-[Excercises](https://github.com/cmda-minor-web/web-app-from-scratch-1920/blob/master/course/week-1.md)
+## Features
 
-[Slides](https://drive.google.com/open?id=1Rjl9xqXoKniQSRJPdkU1O5YwWC33SJK8KiV0a-H_xZU)
+### Api
 
-### Week 2 - Design and Refactor 🛠
+Trough an API the app collects different recipes, the following data is requested from the objects:
+```
+{
+    q: "chicken"
+    from: 0
+    to: 51
+    more: true
+    count: 168103
+    hits: [{All the results in an array}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+}
 
-Goal: Design the web app. Add routes and states. Rendering detail page.
+Hit Example:
+{
+    recipe:
+    uri: "http://www.edamam.com/ontologies/edamam.owl#recipe_b79327d05b8e5b838ad6cfd9576b30b6"
+    label: "Chicken Vesuvio"
+    image: "https://www.edamam.com/web-img/e42/e42f9119813e890af34c259785ae1cfb.jpg"
+    source: "Serious Eats"
+    url: "http://www.seriouseats.com/recipes/2011/12/chicken-vesuvio-recipe.html"
+    shareAs: "http://www.edamam.com/recipe/chicken-vesuvio-b79327d05b8e5b838ad6cfd9576b30b6/chicken"
+    yield: 4
+    dietLabels: ["Low-Carb"]
+    healthLabels: (3) ["Sugar-Conscious", "Peanut-Free", "Tree-Nut-Free"]
+    cautions: ["Sulfites"]
+    ingredientLines: (10) ["1/2 cup olive oil", "5 cloves garlic, peeled", "2 large russet potatoes, peeled and cut into chunks", "1 3-4 pound chicken, cut into 8 pieces (or 3 pound chicken legs)", "3/4 cup white wine", "3/4 cup chicken stock", "3 tablespoons chopped parsley", "1 tablespoon dried oregano", "Salt and pepper", "1 cup frozen peas, thawed"]
+    ingredients: (11) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+    calories: 4055.7632762010808
+    totalWeight: 2765.5901364771207
+    totalTime: 60
+    totalNutrients: {ENERC_KCAL: {…}, FAT: {…}, FASAT: {…}, FATRN: {…}, FAMS: {…}, …}
+    totalDaily: {ENERC_KCAL: {…}, FAT: {…}, FASAT: {…}, CHOCDF: {…}, FIBTG: {…}, …}
+    digest: (26) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+    __proto__: Object
+    bookmarked: false
+    bought: false
+}
 
-[Excercises](https://github.com/cmda-minor-web/web-app-from-scratch-1920/blob/master/course/week-2.md)
+```
+The api data:
+```
+api: The query to the Edamam API,
+appId: Your account ID on Edamam,
+appKey: Your personal requested key
+```
 
-[Slides](https://drive.google.com/open?id=1IqQeu1m0dQiSC_KCvrn8eencAgtYe7X6qT-gm0n9Bmc)
+### Virtual dom
+For this course, I created my own virtual dom
 
-### Week 3 - Wrapping up 🎁
+### Upcoming features
+- My own router instead of using Routie
 
-Goal:
-Manipulate data. Split code into modules. Reflect on end result
+## Interested in the project? Use the following steps to clone the project to your local computer:
 
-[Excercises](https://github.com/cmda-minor-web/web-app-from-scratch-1920/blob/master/course/week-3.md)
+## Before you clone
 
-[Slides](https://drive.google.com/open?id=1BSzGYNLMgtHD4HRnK7f0DgyTv4Pg3xsQwD_eYNo7v0Y)
+* Install Node.js
+* Install a Code Editor
+* An CLI(Command Line Interface) like bash or iTerm
+
+## Used (necessary sources)
+
+* Routie
+* Webpack
+
+* When cloned, use npm install to install all the packages at once
+
+## Installation
+
+```
+git clone https://github.com/GiovanniKaaijk/web-app-from-scratch-1920.git
+```
+Get into the right folder
+```
+cd web-app-from-scratch-1920
+```
+Install used npm packages
+```
+npm install
+```
+
+## Keep up to date
+Make sure you pull the repository once in a while since we are still working on this project, you can do this by using ```git pull```
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## Sources
+Sources used in this app:
+- [Creating the virtual dom](https://dev.to/ycmjason/building-a-simple-virtual-dom-from-scratch-3d05#diff-oldvtree-newvtree)
+
+
 
 <!-- Add a link to your live demo in Github Pages 🌐-->
 

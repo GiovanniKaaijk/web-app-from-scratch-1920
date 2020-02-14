@@ -16,10 +16,18 @@ import {select, selectAll, addEvent} from './helpers/helper'
 import {fetcher} from './helpers/fetch'
 import Routie from './helpers/routie'
 import {renderHelper} from './helpers/renderHelper'
+import setupDetailEvents from './helpers/setupEvents'
+import removeFormOverlay from './helpers/removeFormOverlay'
+import setupFormEvents from './helpers/setupFormEvents'
+import { setData, getData } from './helpers/localStorage'
 
-const api = 'https://api.edamam.com/search'
-const appId = '&app_id=f8bd8b97'
-const appKey = '&app_key=db1e2d22f0a7e8cedde770beac059cba'
+
+const apiData = {
+    api: 'https://api.edamam.com/search',
+    appId: '&app_id=f8bd8b97',
+    appKeys: ['db1e2d22f0a7e8cedde770beac059cba', 'cceef9e29719bbb3c84e056a37615eb5', '6349910cae5650cc97de23cd60c4414c', '60ebf0acb24fa5b936be852166eaf1ea', 'c11c46d03c1e84e27954e96c690c16d9'],
+    appKey: '&app_key='
+}
 
 let vApp;
 //gets changed later on
@@ -37,12 +45,16 @@ let
 
 const renderData = async (e) => {
     e.preventDefault()
-    let result = await renderHelper()
-    
+    let result = await renderHelper(apiData)
+    if(result) {
+        let resultString = JSON.stringify(result)
+        setData('recipeQuery', resultString)
+    }
     renderRecipe(result)
 }
 
 const renderRecipe = (result) => {
+    console.log(result)
     const newChildren = [];
     result.hits.map(result => {
         newChildren.push(articleComponent(result))
@@ -74,27 +86,11 @@ const renderRecipe = (result) => {
     }, 100);
 }
 
-const setupDetailEvents = async () => {
-    let recipes = selectAll('article');
-    recipes.forEach(recipe => {
-        addEvent(recipe, 'click', initDetailPage)
-    })
-}
-
-async function initDetailPage () {
-    // window.history.replaceState("object or string", "Title", `/recipe/${this.dataset.uri}`);
-    Routie(`recipe/${this.dataset.uri}`)
-}
-
 const prepareHeader = () => {
     const domApp = render(header());
     mount(domApp, select('.header'))
     addEvent(select('.searchSwitch'), 'click', () => {
-        window.scrollTo(0,0)
-        select('body').classList.add('form-overlay')
-        select('.overlay').classList.remove('show')
-        select('.search').classList.remove('hidden')
-        select('form input').value = ''
+        setupFormEvents()
     })
 }
 
@@ -102,6 +98,7 @@ const prepareForm = () => {
     vNewApp = formApp();
     setTimeout(() => {
         form = select('form')
+        setupFormEvents()
         form.onsubmit = renderData
     }, 100);
     mount(render(vNewApp), select('.search'))
@@ -125,12 +122,20 @@ const prepareDiffCheck = () => {
 
 Routie('recipe/:id?', async (id) => {
     console.log(id)
+    removeFormOverlay()
     let r = `?q=${id}`
-    const detailQuery = api + r + appId + appKey
+    let randomKeyNumber = Math.floor(Math.random() * 6)
+    console.log(apiData.appKeys, apiData.appKeys[randomKeyNumber], randomKeyNumber)
+    const detailQuery = apiData.api + r + apiData.appId + apiData.appKey + apiData.appKeys[randomKeyNumber]
     console.log(detailQuery)
     const data = await fetcher(detailQuery)
     vNewApp = createDetailPage(data)
-});
+})
+Routie("overview", () => {
+    let data = getData("recipeQuery");
+    data = JSON.parse(data)
+    renderRecipe(data)
+})
 
 const setup = () => {
     prepareHeader()
