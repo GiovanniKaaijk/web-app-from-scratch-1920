@@ -11,6 +11,7 @@ import formApp from './components/formOverlay'
 import header from './components/header'
 import createDetailPage from './components/detailPage'
 import articleComponent from './components/article'
+import calorieFilter from './components/calorieFilter'
 
 import {select, selectAll, addEvent} from './helpers/helper'
 import {fetcher} from './helpers/fetch'
@@ -20,7 +21,6 @@ import setupDetailEvents from './helpers/setupEvents'
 import removeFormOverlay from './helpers/removeFormOverlay'
 import setupFormEvents from './helpers/setupFormEvents'
 import { setData, getData } from './helpers/localStorage'
-
 
 const apiData = {
     api: 'https://api.edamam.com/search',
@@ -38,12 +38,13 @@ let vNewApp = h('div', {
     children: []
 })
 
-let
-    form,
+let form,
     rootEl;
 
 
-const renderData = async (e) => {
+setup()
+
+async function renderData (e) {
     e.preventDefault()
     let result = await renderHelper(apiData)
     if(result) {
@@ -53,13 +54,16 @@ const renderData = async (e) => {
     renderRecipe(result)
 }
 
-const renderRecipe = (result) => {
+function renderRecipe (result) {
     console.log(result)
+
+    const calorieFilters = calorieFilter()
+
     const newChildren = [];
     result.hits.map(result => {
         newChildren.push(articleComponent(result))
     })
-    
+    const elArray = calorieFilters.concat(newChildren);
     vNewApp = h('div', {
         attrs: {
           id: 'app',
@@ -69,7 +73,7 @@ const renderRecipe = (result) => {
             attrs: {
                 class: ''
             },
-            children: newChildren
+            children: elArray
         })]
       });
 
@@ -86,15 +90,18 @@ const renderRecipe = (result) => {
     }, 100);
 }
 
-const prepareHeader = () => {
+function prepareHeader() {
     const domApp = render(header());
     mount(domApp, select('.header'))
+    addEvent(select('.backSwitch'), 'click', () => {
+        Routie(`overview`)
+    })
     addEvent(select('.searchSwitch'), 'click', () => {
         setupFormEvents()
     })
 }
 
-const prepareForm = () => {
+function prepareForm() {
     vNewApp = formApp();
     setTimeout(() => {
         form = select('form')
@@ -105,7 +112,7 @@ const prepareForm = () => {
     prepareDiffCheck()
 }
 
-const prepareDiffCheck = () => {
+function prepareDiffCheck() {
     let container = h('div', {
         attrs: {
             class: 'container'
@@ -121,6 +128,7 @@ const prepareDiffCheck = () => {
 }
 
 Routie('recipe/:id?', async (id) => {
+    select('.backSwitch').classList.add('show')
     console.log(id)
     removeFormOverlay()
     let r = `?q=${id}`
@@ -132,15 +140,15 @@ Routie('recipe/:id?', async (id) => {
     vNewApp = createDetailPage(data)
 })
 Routie("overview", () => {
+    select('.backSwitch').classList.remove('show')
     let data = getData("recipeQuery");
     data = JSON.parse(data)
+    console.log(data)
     renderRecipe(data)
 })
 
-const setup = () => {
+function setup() {
     prepareHeader()
     vApp = formApp()
     prepareForm()
 }
-
-setup()

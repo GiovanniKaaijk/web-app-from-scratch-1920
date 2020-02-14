@@ -5,10 +5,12 @@ export default (result) => {
         const dataUri = result.recipe.uri
         let r = dataUri.split('recipe_')
         r = r[1]
+        const dataCal = Math.floor(parseInt(result.recipe.calories))
     return h('article', {
         attrs: {
             class: 'object-wrapper',
-            "data-uri": r
+            "data-uri": r,
+            "data-calories": dataCal
         },
         children: [
             h('div', {
