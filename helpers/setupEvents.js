@@ -1,5 +1,5 @@
 import Routie from './routie'
-import {selectAll, addEvent} from './helper'
+import {select, selectAll, addEvent} from './helper'
 
 export default () => {
     const recipes = selectAll('article');
@@ -8,6 +8,7 @@ export default () => {
     })
     
     function initDetailPage () {
+        select('.overlay').classList.add('show')
         Routie(`recipe/${this.dataset.uri}`)
     }
 
@@ -18,10 +19,10 @@ export default () => {
 
     function filterRecipes() {
         let calories = this.textContent
-        if(calories !== 'reset') { calories = calories.split('-') }
+        if(calories !== 'All') { calories = calories.split('-') }
         const articles = selectAll('article')
         articles.forEach(article => {
-            if(calories === 'reset') {
+            if(calories === 'All') {
                 article.style.display = "block"
             }
             else if(article.dataset.calories >= calories[0] && article.dataset.calories <= calories[1]) {

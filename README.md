@@ -3,6 +3,7 @@
 ## My recipe searcher
 
 The perfect website to discover delicious recipes.
+[Live demo](https://giovannikaaijk.github.io/web-app-from-scratch-1920/index.html)
 
 <img width="1440" alt="Schermafbeelding 2020-02-14 om 09 38 10" src="https://user-images.githubusercontent.com/43671292/74514918-cfeff480-4f0d-11ea-9c4f-070b49ba8448.png">
 
@@ -20,7 +21,7 @@ The perfect website to discover delicious recipes.
 
 ## Description
 
-During this course I created a web app to discover recipes. The data I use comes from [Edamam](https://developer.edamam.com/). The user has the ability to search different recipes and see the detail pages.
+During this course I created a web app to discover recipes. The data I use comes from [Edamam](https://developer.edamam.com/). The user has the ability to search different recipes and check the detail pages. In this project, I only used vanilla Javascript.
 
 ## Actor Diagram
 <img width="1440" alt="actor-diagram_Tekengebied 1" src="https://user-images.githubusercontent.com/43671292/74516231-51488680-4f10-11ea-8d70-90b31d1133b8.png">
@@ -75,7 +76,7 @@ appKey: Your personal requested key
 ```
 
 ### Virtual dom
-For this course, I created my own virtual dom
+For this course, I created a virtual dom. This virtual dom checks the difference between the old three of the dom and the new three, then it replaces all old elements with the new ones.
 
 ### Upcoming features
 - My own router instead of using Routie
@@ -108,6 +109,10 @@ Install used npm packages
 ```
 npm install
 ```
+Run the webpack builder
+```
+npm run watch
+```
 
 ## Keep up to date
 Make sure you pull the repository once in a while since we are still working on this project, you can do this by using ```git pull```
@@ -120,24 +125,5 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Sources used in this app:
 - [Creating the virtual dom](https://dev.to/ycmjason/building-a-simple-virtual-dom-from-scratch-3d05#diff-oldvtree-newvtree)
 
+[License]()
 
-
-<!-- Add a link to your live demo in Github Pages 🌐-->
-
-<!-- ☝️ replace this description with a description of your own work -->
-
-<!-- replace the code in the /docs folder with your own, so you can showcase your work with GitHub Pages 🌍 -->
-
-<!-- Add a nice poster image here at the end of the week, showing off your shiny frontend 📸 -->
-
-<!-- Maybe a table of contents here? 📚 -->
-
-<!-- How about a section that describes how to install this project? 🤓 -->
-
-<!-- ...but how does one use this project? What are its features 🤔 -->
-
-<!-- What external data source is featured in your project and what are its properties 🌠 -->
-
-<!-- Maybe a checklist of done stuff and stuff still on your wishlist? ✅ -->
-
-<!-- How about a license here? 📜 (or is it a licence?) 🤷 -->

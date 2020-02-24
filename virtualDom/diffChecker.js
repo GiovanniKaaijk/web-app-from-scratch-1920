@@ -1,17 +1,10 @@
 import render from './render';
 
-const zip = (xs, ys) => {
-  const zipped = [];
-  for (let i = 0; i < Math.min(xs.length, ys.length); i++) {
-    zipped.push([xs[i], ys[i]]);
-  }
-  return zipped;
-};
-
 const diffAttrs = (oldAttrs, newAttrs) => {
   const patches = [];
 
   // setting newAttrs
+  // add key to element
   Object.keys(newAttrs).forEach(key => {
     patches.push(domNode => {
       domNode.setAttribute(key, newAttrs[key]);
@@ -20,6 +13,7 @@ const diffAttrs = (oldAttrs, newAttrs) => {
   })
 
   // removing attrs
+  // if key does not exist in new attributes
   Object.keys(oldAttrs).forEach(key => {
 if (!(key in newAttrs)) {
       patches.push(domNode => {
@@ -29,10 +23,12 @@ if (!(key in newAttrs)) {
     }
   })
 
+  // returns the full container wrapped
+  // removes or adds attributes
   return domNode => {
-    for (const patch of patches) {
+    patches.forEach(patch => {
       patch(domNode);
-    }
+    })
     return domNode;
   };
 };
@@ -57,14 +53,14 @@ const diffChildren = (oldVChildren, newVChildren) => {
 
   return domParent => {
     // since childPatches are expecting the domChild, not domParent,
-    // we cannot just loop through them and call patch(domParent)
-    for (const [patch, domChild] of zip(childPatches, domParent.childNodes)) {
-      patch(domChild);
-    }
-
-    for (const patch of additionalPatches) {
+    // for each childPatch -> compare old children with new children
+    
+    domParent.childNodes.forEach((domChild, i) => {
+      childPatches[i](domChild);
+    });
+    additionalPatches.forEach(patch => {
       patch(domParent);
-    }
+    })
     return domParent;
   };
 };

@@ -51,85 +51,87 @@ export default () => {
                     })]
                 })
                 
-            ,h('div', {
-                attrs: {
-                    class: 'radio'
-                },
-                children: [
-                    h('div', {
-                        attrs: {},
-                        children: [h('label', {
-                            attrs: {
-                                for: 'breakfast'
-                            },
-                            children: [
-                                'Breakfast'
-                            ]
-                            }),
-                            h('input', {
-                                attrs: {
-                                    type: 'radio',
-                                    id: 'Breakfast',
-                                    name: 'mealtype'
-                                }
-                            }),]
-                    }),
-                    h('div', {
-                        attrs: {},
-                        children: [h('label', {
-                            attrs: {
-                                for: 'lunch'
-                            },
-                            children: [
-                                'Lunch'
-                            ]
-                        }),
-                        h('input', {
-                            attrs: {
-                                type: 'radio',
-                                id: 'Lunch',
-                                name: 'mealtype'
-                            }
-                        }),]
-                    }),
+            // ,h('div', {
+            //     attrs: {
+            //         class: 'radio'
+            //     },
+            //     children: [
+            //         h('div', {
+            //             attrs: {},
+            //             children: [h('label', {
+            //                 attrs: {
+            //                     for: 'breakfast'
+            //                 },
+            //                 children: [
+            //                     'Breakfast'
+            //                 ]
+            //                 }),
+            //                 h('input', {
+            //                     attrs: {
+            //                         type: 'radio',
+            //                         id: 'Breakfast',
+            //                         name: 'mealtype'
+            //                     }
+            //                 }),]
+            //         }),
+            //         h('div', {
+            //             attrs: {},
+            //             children: [h('label', {
+            //                 attrs: {
+            //                     for: 'lunch'
+            //                 },
+            //                 children: [
+            //                     'Lunch'
+            //                 ]
+            //             }),
+            //             h('input', {
+            //                 attrs: {
+            //                     type: 'radio',
+            //                     id: 'Lunch',
+            //                     name: 'mealtype'
+            //                 }
+            //             }),]
+            //         }),
                     
-                    h('div', {
-                        attrs: {},
-                        children: [h('label', {
-                            attrs: {
-                                for: 'dinner'
-                            },
-                            children: [
-                                'Dinner'
-                            ]
-                        }),
-                        h('input', {
-                            attrs: {
-                                type: 'radio',
-                                id: 'Dinner',
-                                name: 'mealtype'
-                            }
-                        })]
-                    }),
-                ]
-            }),
+            //         h('div', {
+            //             attrs: {},
+            //             children: [h('label', {
+            //                 attrs: {
+            //                     for: 'dinner'
+            //                 },
+            //                 children: [
+            //                     'Dinner'
+            //                 ]
+            //             }),
+            //             h('input', {
+            //                 attrs: {
+            //                     type: 'radio',
+            //                     id: 'Dinner',
+            //                     name: 'mealtype'
+            //                 }
+            //             })]
+            //         }),
+            //     ]
+            // }),
         ]
     })]
-        }), h('div', {
-            attrs: {
-                class: 'overlay'
-            },
-            children: [
-                h('img', {
-                    attrs: {
-                        class: 'spinner',
-                        src: './images/load.svg',
-                        alt: 'spinner'
-                    }
-                })
-            ]
+        })
+        // , h('div', {
+        //     attrs: {
+        //         class: 'overlay'
+        //     },
+        //     children: [
+        //         h('img', {
+        //             attrs: {
+        //                 class: 'spinner',
+        //                 src: './images/load.svg',
+        //                 alt: 'spinner'
+        //             }
+        //         })
+        //     ]
     
-        })]
+        // })
+    ]
       });
 }
 

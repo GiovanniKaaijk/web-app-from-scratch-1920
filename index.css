@@ -16,6 +16,7 @@ main {
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 15px;
     margin-top: 90px;
+    text-align: center;
 }
 
 main > article > div > p:nth-of-type(1) {
@@ -46,10 +47,7 @@ main article h2 {
 
 main > article {
     margin: 0 auto;
-}
-
-main > article.hide {
-    display: none;
+    transition: all .3s;
 }
 
 
@@ -156,8 +154,12 @@ div.overlay {
     width: 100%;
     background-color: rgba(33,33,33,.5);
     z-index: 20;
-    position: absolute;
+    position: fixed;
     display: flex;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 div.overlay.show {
@@ -249,4 +251,9 @@ div.radio > div {
 
 .detail h2 {
     margin-top: 0;
+}
+
+.error {
+    margin-top: 100px;
+    margin-left: 50px;
 }

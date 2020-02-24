@@ -1,4 +1,5 @@
 import h from '../virtualDom/createElement';
+import {select} from '../helpers/helper'
 
 export default (data) => {
     
@@ -12,6 +13,7 @@ export default (data) => {
             ]
         }))
     })
+    select('.overlay').classList.remove('show')
     return h('div', {
         attrs: {
             class: 'container detail'

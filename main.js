@@ -40,54 +40,89 @@ let vNewApp = h('div', {
 
 let form,
     rootEl;
+let container = h('div', {
+    attrs: {
+        class: 'container'
+    },
+    children: []
+})
+rootEl = mount(render(container), select('.container'))
 
 
 setup()
 
 async function renderData (e) {
     e.preventDefault()
+    select('input').blur()
     let result = await renderHelper(apiData)
     if(result) {
         let resultString = JSON.stringify(result)
         setData('recipeQuery', resultString)
+        renderRecipe(result)
+    }else {
+        vNewApp = h('div', {
+            attrs: {
+                class: 'container error'
+            },
+            children: [
+                'Something went wrong, please try again'
+            ]
+        })
+        select('form').classList.add('hidden')
+        setTimeout(() => {
+            select('.overlay').classList.remove('show')
+        }, 100);
+        prepareDiffCheck()
     }
-    renderRecipe(result)
 }
 
 function renderRecipe (result) {
     console.log(result)
-
-    const calorieFilters = calorieFilter()
-
-    const newChildren = [];
-    result.hits.map(result => {
-        newChildren.push(articleComponent(result))
-    })
-    const elArray = calorieFilters.concat(newChildren);
-    vNewApp = h('div', {
-        attrs: {
-          id: 'app',
-          class: 'container'
-        },
-        children: [h('main', {
+    if(result.hits.length === 0) {
+        vNewApp = h('div', {
             attrs: {
-                class: ''
+              id: 'app',
+              class: 'container'
             },
-            children: elArray
-        })]
-      });
-
-    console.log(vNewApp)
+            children: [h('main', {
+                attrs: {
+                    class: ''
+                },
+                children: [
+                    'No results have been found'
+                ]
+            })]
+          });
+    } else {
+        const calorieFilters = calorieFilter()
+        const newChildren = [];
+        result.hits.map(result => {
+            newChildren.push(articleComponent(result))
+        })
+        const elArray = calorieFilters.concat(newChildren);
+        vNewApp = h('div', {
+            attrs: {
+              id: 'app',
+              class: 'container'
+            },
+            children: [h('main', {
+                attrs: {
+                    class: ''
+                },
+                children: elArray
+            })]
+          });
+    }
+    
+    prepareDiffCheck()
+    
     const form = select('form');
     form.classList.add('fade')
 
-    setTimeout(() => {
-        form.classList.remove('fade')
-        form.classList.add('hidden')
-    }, 300);
-    setTimeout(() => {
-        setupDetailEvents()
-    }, 100);
+    form.classList.remove('fade')
+    form.classList.add('hidden')
+    select('.overlay').classList.remove('show')
+    setupDetailEvents()
 }
 
 function prepareHeader() {
@@ -103,28 +138,16 @@ function prepareHeader() {
 
 function prepareForm() {
     vNewApp = formApp();
-    setTimeout(() => {
-        form = select('form')
-        setupFormEvents()
-        form.onsubmit = renderData
-    }, 100);
     mount(render(vNewApp), select('.search'))
-    prepareDiffCheck()
+    form = select('form')
+    setupFormEvents()
+    form.onsubmit = renderData
 }
 
 function prepareDiffCheck() {
-    let container = h('div', {
-        attrs: {
-            class: 'container'
-        },
-        children: []
-    })
-    rootEl = mount(render(container), select('.container'))
-    setInterval(() => {
-        const patch = diff(vApp, vNewApp);
-        rootEl = patch(rootEl);
-        vApp = vNewApp
-    }, 50);
+    const patch = diff(vApp, vNewApp);
+    rootEl = patch(rootEl);
+    vApp = vNewApp
 }
 
 Routie('recipe/:id?', async (id) => {
@@ -137,7 +160,20 @@ Routie('recipe/:id?', async (id) => {
     const detailQuery = apiData.api + r + apiData.appId + apiData.appKey + apiData.appKeys[randomKeyNumber]
     console.log(detailQuery)
     const data = await fetcher(detailQuery)
-    vNewApp = createDetailPage(data)
+    if(!data) {
+        vNewApp = h('div', {
+            attrs: {
+                class: 'container error'
+            },
+            children: [
+                'Something went wrong, please try again'
+            ]
+        })
+        prepareDiffCheck()
+    } else {
+        vNewApp = createDetailPage(data)
+        prepareDiffCheck()
+    }
 })
 Routie("overview", () => {
     select('.backSwitch').classList.remove('show')
