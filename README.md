@@ -125,5 +125,5 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Sources used in this app:
 - [Creating the virtual dom](https://dev.to/ycmjason/building-a-simple-virtual-dom-from-scratch-3d05#diff-oldvtree-newvtree)
 
-[License]()
+[License](https://github.com/GiovanniKaaijk/web-app-from-scratch-1920/blob/master/LICENSE)
 
