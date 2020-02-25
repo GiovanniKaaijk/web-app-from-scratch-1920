@@ -94,12 +94,50 @@ function renderRecipe (result) {
             })]
           });
     } else {
-        const calorieFilters = calorieFilter()
+        renderNewArticle(result)
+        setupButtonEvents(result)
+    }
+    
+    const form = select('form');
+    form.classList.add('fade')
+
+    form.classList.remove('fade')
+    form.classList.add('hidden')
+    select('.overlay').classList.remove('show')
+    setupDetailEvents()
+}
+
+function setupButtonEvents(result) {
+    const filterButtons = selectAll('button')
+        filterButtons.forEach(button => {
+            addEvent(button, 'click', function () {
+                // filter array with valid result objects -> render articleComponent -> concat buttons with nnew articles ->update vapp
+                let filterValue = this.textContent
+                filterValue = filterValue === 'All' ? [0,10000] : filterValue.split('-')
+                filterValue[0] = parseInt(filterValue[0]); filterValue[1] = parseInt(filterValue[1])
+                const newHits = {
+                    hits: result.hits.filter(function(hit) {
+                    return hit.recipe.calories >= filterValue[0] && 
+                            hit.recipe.calories <= filterValue[1]
+                })
+            }
+                console.log(newHits)
+                renderNewArticle(newHits)
+                setupButtonEvents(result)
+                setupDetailEvents()
+            })
+        }) 
+}
+
+function renderNewArticle(result) {
+    const calorieFilters = calorieFilter()
         const newChildren = [];
         result.hits.map(result => {
             newChildren.push(articleComponent(result))
         })
         const elArray = calorieFilters.concat(newChildren);
+        vNewApp = '';
+        prepareDiffCheck()
         vNewApp = h('div', {
             attrs: {
               id: 'app',
@@ -112,17 +150,7 @@ function renderRecipe (result) {
                 children: elArray
             })]
           });
-    }
-    
-    prepareDiffCheck()
-    
-    const form = select('form');
-    form.classList.add('fade')
-
-    form.classList.remove('fade')
-    form.classList.add('hidden')
-    select('.overlay').classList.remove('show')
-    setupDetailEvents()
+        prepareDiffCheck()
 }
 
 function prepareHeader() {
