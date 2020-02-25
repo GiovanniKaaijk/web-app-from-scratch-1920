@@ -26,6 +26,9 @@ During this course I created a web app to discover recipes. The data I use comes
 ## Actor Diagram
 <img width="1440" alt="actor-diagram_Tekengebied 1" src="https://user-images.githubusercontent.com/43671292/75246667-89817c00-57d0-11ea-8bb5-98b7404ac735.png">
 
+## Interaction Diagram
+<img width="1440" alt="interaction-diagram_Tekengebied 1" src="https://user-images.githubusercontent.com/43671292/75252167-62c94280-57dc-11ea-8b41-83092bc119c1.png">
+
 ## Features
 
 ### Api
