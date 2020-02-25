@@ -24,7 +24,7 @@ The perfect website to discover delicious recipes.
 During this course I created a web app to discover recipes. The data I use comes from [Edamam](https://developer.edamam.com/). The user has the ability to search different recipes and check the detail pages. In this project, I only used vanilla Javascript.
 
 ## Actor Diagram
-<img width="1440" alt="actor-diagram_Tekengebied 1" src="https://user-images.githubusercontent.com/43671292/74516231-51488680-4f10-11ea-8d70-90b31d1133b8.png">
+<img width="1440" alt="actor-diagram_Tekengebied 1" src="https://user-images.githubusercontent.com/43671292/75246667-89817c00-57d0-11ea-8bb5-98b7404ac735.png">
 
 ## Features
 
