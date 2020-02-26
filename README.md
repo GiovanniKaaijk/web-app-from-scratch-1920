@@ -9,15 +9,19 @@ The perfect website to discover delicious recipes.
 
 ## Table of Contents
 
-- [Description](#Description)
-- [Features](#Features)
-  - [API](#API)
-  - [App features](#app-features)
-  - [Enter update exit](#enter-update-exit)
-- [Installation](#Installation)
-  - [Keep up to date](#Keep-up-to-date)
-- [Contributing](#Contributing)
-- [License](#License)
+- [Web app from scratch](#web-app-from-scratch)
+  * [Description](#description)
+  * [Actor Diagram](#actor-diagram)
+  * [Interaction Diagram](#interaction-diagram)
+  * [Features](#features)
+    + [Api](#api)
+    + [Virtual dom](#virtual-dom)
+    + [Upcoming features](#upcoming-features)
+  * [Packages used](#packages-used)
+  * [Installation](#installation)
+  * [Keep up to date](#keep-up-to-date)
+  * [Contributing](#contributing)
+  * [Sources](#sources)
 
 ## Description
 
@@ -92,7 +96,7 @@ For this course, I created a virtual dom. This virtual dom checks the difference
 * Install a Code Editor
 * An CLI(Command Line Interface) like bash or iTerm
 
-## Used (necessary sources)
+## Packages used
 
 * Routie
 * Webpack
