@@ -46,6 +46,18 @@ export default (data) => {
                     h('div', {
                         attrs: {},
                         children: ingredientArray
+                    }),
+                    h('h2', {
+                        attrs: {},
+                        children: [
+                            'Calories:'
+                        ]
+                    }),
+                    h('p', {
+                        attrs: {},
+                        children: [
+                            (Math.floor(recipe.calories)).toString()
+                        ]
                     })
                 ]
             })
